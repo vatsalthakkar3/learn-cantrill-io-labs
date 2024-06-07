@@ -20,6 +20,7 @@ import array
 import warnings
 
 from . import GimpGradientFile, GimpPaletteFile, ImageColor, PaletteFile
+import secrets
 
 
 class ImagePalette:
@@ -217,11 +218,10 @@ def negative(mode="RGB"):
 
 
 def random(mode="RGB"):
-    from random import randint
 
     palette = []
     for i in range(256 * len(mode)):
-        palette.append(randint(0, 255))
+        palette.append(secrets.SystemRandom().randint(0, 255))
     return ImagePalette(mode, palette)
 
 
