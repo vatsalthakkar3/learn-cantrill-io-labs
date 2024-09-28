@@ -18,6 +18,7 @@ import sys
 from shlex import quote
 
 from PIL import Image
+from security import safe_command
 
 _viewers = []
 
@@ -110,8 +111,7 @@ class Viewer:
         return 1
 
     def _remove_file_after_delay(self, file):
-        subprocess.Popen(
-            [
+        safe_command.run(subprocess.Popen, [
                 sys.executable,
                 "-c",
                 "import os, sys, time; time.sleep(20); os.remove(sys.argv[1])",
@@ -209,7 +209,7 @@ class DisplayViewer(UnixViewer):
             args += ["-name", options["title"]]
         args.append(file)
 
-        subprocess.Popen(args)
+        safe_command.run(subprocess.Popen, args)
         os.remove(file)
         return 1
 
@@ -265,7 +265,7 @@ class XVViewer(UnixViewer):
             args += ["-name", options["title"]]
         args.append(file)
 
-        subprocess.Popen(args)
+        safe_command.run(subprocess.Popen, args)
         os.remove(file)
         return 1
 
